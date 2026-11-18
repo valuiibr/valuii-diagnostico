@@ -9,7 +9,7 @@ export default {
  async fetch(request,env){
    const origin=request.headers.get("Origin")||"";
    if(!ALLOWED_ORIGINS.has(origin))return new Response("Forbidden",{status:403});
-   if(request.method==="OPTIONS")return response({},204,origin);
+   if(request.method==="OPTIONS")return new Response(null,{status:204,headers:{"Access-Control-Allow-Origin":origin,"Access-Control-Allow-Headers":"Content-Type","Access-Control-Allow-Methods":"POST, OPTIONS","Vary":"Origin"}});
    if(request.method!=="POST")return response({error:"Method not allowed"},405,origin);
    if(!env.RESEND_API_KEY||!env.TURNSTILE_SECRET||!env.MAIL_FROM)return response({error:"Integração indisponível"},503,origin);
    const contentType=request.headers.get("content-type")||"";
